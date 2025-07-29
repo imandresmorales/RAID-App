@@ -59,7 +59,7 @@ const AuthPage = () => {
             }
 
             <input type='text' name='email' placeholder='Email' value={formData.email} onChange={handleChange} required className='w-full border px-3 py-2 rounded mb-4' />
-            <input type='text' name='password' placeholder='Password' value={formData.password} onChange={handleChange} required className='w-full border px-3 py-2 rounded mb-4' />
+            <input type='password' name='password' placeholder='Password' value={formData.password} onChange={handleChange} required className='w-full border px-3 py-2 rounded mb-4' />
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <button type='submit' className='w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition'> {loading ? 'Processing...' : activeTab === 'signin' ? 'Sign In' : 'Sign Up'}</button>
           </form>

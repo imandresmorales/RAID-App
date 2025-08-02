@@ -2,8 +2,6 @@ import axios from 'axios'
 
 const baseUrl = "http://localhost:3001/api/auth";
 
-
-// Register User
 export const registerUser = async (user) => {
   try {
     const res = await axios.post(`${baseUrl}/register`, user)
@@ -18,12 +16,19 @@ export const registerUser = async (user) => {
   }
 }
 
-// Login User
 export const loginUser = async (userData) => {
   try {
-    const res = await axios.post(`${baseUrl}/login`, userData)
+    const res = await axios.post(`${baseUrl}/login`, userData);
     return res.data;
   } catch (error) {
-    throw error.response.data;
+    console.error("Login error:", error);
+
+
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || 'Login failed');
+    } else {
+
+      throw new Error('Login failed. Please check your network or try again.');
+    }
   }
 }

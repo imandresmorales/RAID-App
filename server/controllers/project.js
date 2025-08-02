@@ -47,6 +47,7 @@ projectRouter.get('/', async (req, res) => {
     }));
     res.json(projectCard)
   } catch (error) {
+    console.error('Failed to fetch projects:', error.message)
     res.status(500).json({ error: error.message })
   }
 })

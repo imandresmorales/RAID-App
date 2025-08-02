@@ -1,7 +1,11 @@
 const app = require('./app')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
-
+require('./models/Project')
+require('./models/Risk')
+require('./models/Issue')
+require('./models/Assumption')
+require('./models/Dependency')
 app.listen(config.PORT, () => {
   logger.info(`Server running on port ${config.PORT}`)
 })

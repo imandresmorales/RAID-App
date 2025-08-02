@@ -3,9 +3,21 @@ import HomePage from "./components/Homepage"
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./components/Dashboard";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import './App.css'
+import { useEffect } from "react";
+import projectService from './services/project'
+// import { useDispatch } from "react-redux";
+// import { loginThunk } from "./reducers/authReducer"
 
 function App() {
+  // const dispatch = useDispatch()
+
+  useEffect(() => {
+    // Just check if token exists and maybe set it for services
+    const token = localStorage.getItem('token');
+    if (token) {
+      projectService.setToken(token);
+    }
+  }, []);
 
   return (
     <>

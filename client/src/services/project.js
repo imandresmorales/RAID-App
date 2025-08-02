@@ -33,15 +33,23 @@ const create = async (newObject) => {
 // Update a project
 
 const update = async (id, newObject) => {
-  const res = await axios.put(`${baseUrl}/${id}`, newObject)
+  const config = {
+    headers: { Authorization: token },
+  }
+  const res = await axios.put(`${baseUrl}/${id}`, newObject, config)
   return res.data
 }
 
 // Delete a project
 
 const deleteProject = async (id) => {
-  const res = await axios.delete(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const res = await axios.delete(`${baseUrl}/${id}`, config)
   return res.data
+
 }
 
 export default { getAll, create, update, deleteProject, setToken }

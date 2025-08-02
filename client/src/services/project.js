@@ -9,12 +9,14 @@ const setToken = newToken => {
 
 // Get All projects
 
-const getAll = () => {
+const getAll = async () => {
   const config = {
     headers: { Authorization: token },
   }
   const req = axios.get(baseUrl, config)
-  return req.then(res => res.data)
+  // return req.then(res => res.data)
+  const res = await req
+  return res.data
 }
 
 

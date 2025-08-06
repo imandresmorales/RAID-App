@@ -3,7 +3,7 @@ import HomePage from "./components/Homepage"
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./components/Dashboard";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import projectService from './services/project'
 // import { useDispatch } from "react-redux";
 // import { loginThunk } from "./reducers/authReducer"
@@ -11,13 +11,10 @@ import projectService from './services/project'
 function App() {
   // const dispatch = useDispatch()
 
-  useEffect(() => {
-    // Just check if token exists and maybe set it for services
-    const token = localStorage.getItem('token');
-    if (token) {
-      projectService.setToken(token);
-    }
-  }, []);
+  const token = localStorage.getItem('token');
+  if (token) {
+    projectService.setToken(token); // ✅ set it immediately
+  }
 
   return (
     <>

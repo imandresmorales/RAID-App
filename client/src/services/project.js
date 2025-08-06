@@ -13,9 +13,7 @@ const getAll = async () => {
   const config = {
     headers: { Authorization: token },
   }
-  const req = axios.get(baseUrl, config)
-  // return req.then(res => res.data)
-  const res = await req
+  const res = axios.get(baseUrl, config)
   return res.data
 }
 
@@ -26,6 +24,7 @@ const create = async (newObject) => {
   const config = {
     headers: { Authorization: token },
   }
+  console.log(config)
   const res = await axios.post(baseUrl, newObject, config)
   return res.data
 }

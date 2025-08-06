@@ -50,7 +50,6 @@ const projectSlice = createSlice({
   name: 'projects',
   initialState: {
     items: [],
-    projects: [],
     loading: false,
     error: null,
   },
@@ -71,6 +70,8 @@ const projectSlice = createSlice({
       })
 
       .addCase(createProject.fulfilled, (state, action) => {
+        console.log('state:', state);
+        console.log('payload:', action.payload);
         state.items.push(action.payload)
       })
 

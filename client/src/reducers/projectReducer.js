@@ -3,9 +3,11 @@ import projectService from "../services/project"
 
 export const fetchProjects = createAsyncThunk(
   'projects/fetchAll',
-  async (thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      return await projectService.getAll()
+      const res = await projectService.getAll()
+      console.log('Projects from API:', res);
+      return res
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
     }
@@ -45,20 +47,21 @@ export const deleteProject = createAsyncThunk(
     }
   }
 )
-
+const initialState = {
+  items: [],
+  loading: false,
+  error: null
+}
 const projectSlice = createSlice({
   name: 'projects',
-  initialState: {
-    items: [],
-    loading: false,
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
 
     builder.
       addCase(fetchProjects.pending, state => {
         state.loading = true
+        state.error = null
       })
       .addCase(fetchProjects.fulfilled, (state, action) => {
         state.items = action.payload
@@ -70,9 +73,7 @@ const projectSlice = createSlice({
       })
 
       .addCase(createProject.fulfilled, (state, action) => {
-        console.log('state:', state);
-        console.log('payload:', action.payload);
-        state.items.push(action.payload)
+        state.items = [...state.items, action.payload]
       })
 
       .addCase(updateProject.fulfilled, (state, action) => {

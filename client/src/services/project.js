@@ -13,7 +13,7 @@ const getAll = async () => {
   const config = {
     headers: { Authorization: token },
   }
-  const res = axios.get(baseUrl, config)
+  const res = await axios.get(baseUrl, config)
   return res.data
 }
 

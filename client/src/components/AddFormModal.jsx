@@ -31,7 +31,7 @@ const AddFormModal = ({ onClose, onCreate }) => {
               <input ref={titleRef} className='w-full px-4 py-3 border border-gray-300 text-black rounded-md mb-5 mt-4' type="text" placeholder='Project Title' required />
               <textarea ref={descRef} name="description" className='px-3 py-3 rounded-md w-full border' placeholder="Enter project description" rows={3} id="project-description"></textarea>
               <div className='mt-2 flex justify-end gap-2'>
-                <button className='bg-white text-black shadow rounded-sm px-4 py-2'>Cancel</button>
+                <button className='bg-white text-black shadow rounded-sm px-4 py-2' type='button' onClick={onClose}>Cancel</button>
                 <button className='bg-black text-white shadow rounded-sm px-4 py-2' type='submit' >Create Project</button>
               </div>
             </form>

@@ -3,9 +3,10 @@ import Navbar from './Navbar'
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteProject, fetchProjects, createProject } from '../reducers/projectReducer'
 import AddFormModal from './AddFormModal'
+import { Trash } from 'lucide-react';
 const Dashboard = () => {
   const dispatch = useDispatch()
-  const { items: projects = [], loading } = useSelector(state => state.projects);
+  const { items: projects = [] } = useSelector(state => state.projects);
 
   // Show form modal state
   const [showModal, setShowModal] = useState(false)
@@ -35,19 +36,36 @@ const Dashboard = () => {
           <button onClick={() => setShowModal(true)} className='text-white bg-black font-medium rounded-md text-sm px-4 py-2'>New Project</button>
           {showModal && <AddFormModal onClose={() => setShowModal(false)} onCreate={handleCreateProject} />}
         </div>
-        {
 
-          loading ? (<p>Loading</p>) : projects && projects.length > 0 ? (
-            projects.map(project => (
-              <div key={project.id}>
-                <h2>{project.name}</h2>
-                <p>{project.description}</p>
-                <button onClick={() => handleDelete(project.id)}>Delete</button>
-              </div>
-            ))
+
+        {
+          projects.length > 0 ? (
+            <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-2'>
+              {projects.map((project) => (
+                <div className='rounded-lg shadow-sm transition-shadow' key={project.id}>
+                  <div className='flex flex-col space-y-1.5 p-6'>
+                    <h3 className='text-2xl font-semibold flex items-center justify-between'>
+                      <span className='truncate cursor-pointer hover:text-blue-600'>{project.name}</span>
+                      <div className='flex items-center text-base'>
+                        <button onClick={() => handleDelete(project.id)}><Trash size={25} /></button>
+                      </div>
+                    </h3>
+                    <p className='text-sm'>{project.description}</p>
+                  </div>
+                  <div className='p-6 pt-0'>
+                    <div className='grid grid-cols-2 gap-4 text-sm'>
+                      <div className='flex items-center space-x-2'><span>Risks</span></div>
+                      <div className='flex items-center space-x-2'><span>Assumptions</span></div>
+                      <div className='flex items-center space-x-2'><span>Issues</span></div>
+                      <div className='flex items-center space-x-2'><span>Dependencies</span></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : (
             <div className="flex justify-center items-center h-80">
-              <p className="text-lg text-gray-600 font-medium ">Click New project button to add one</p>
+              <p className="text-lg text-gray-600 font-medium">Click New project button to add one</p>
             </div>
           )
         }

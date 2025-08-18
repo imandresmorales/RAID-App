@@ -17,7 +17,7 @@ function App() {
 
   const token = localStorage.getItem('token');
   if (token) {
-    projectService.setToken(token); // ✅ set it immediately
+    projectService.setToken(token);
   }
 
   return (

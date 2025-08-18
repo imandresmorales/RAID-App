@@ -1,9 +1,10 @@
 import React from 'react'
+import Navbar from './Navbar'
 
-export const Issues = () => {
+const Issues = () => {
   return (
-    <>
-      <Navbar />
-    </>
+    <><Navbar /></>
   )
 }
+
+export default Issues

@@ -15,6 +15,7 @@ mongoose.connect(config.MONGODB_URI)
 // Registered Routes
 const authRoutes = require('./controllers/auth')
 const projectRouter = require('./controllers/project')
+const riskRouter = require('./controllers/risks')
 
 app.use(cors())
 // Middleware to parse JSON requests
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/auth", authRoutes)
 app.use('/api/projects', middleware.userExtractor, projectRouter)
+app.use('/api', riskRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

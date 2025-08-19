@@ -1,9 +1,9 @@
 const riskRouter = require('express').Router()
 const Risk = require("../models/Risks")
 const Project = require("../models/Project")
-const middleware = require('./utils/middleware')
+const middleware = require("../utils/middleware")
 // Get all risks for a particular project
-router.get("/projects/:projectId/risks", middleware.userExtractor, async (req, res) => {
+riskRouter.get("/projects/:projectId/risks", middleware.userExtractor, async (req, res) => {
   try {
     const { projectId } = req.params
     const risks = await Risk.find({ projects: projectId })
@@ -15,7 +15,7 @@ router.get("/projects/:projectId/risks", middleware.userExtractor, async (req, r
 })
 
 // Post a new risk
-router.post("/projects/:projectId/risks", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
+riskRouter.post("/projects/:projectId/risks", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
   try {
     const { projectId } = req.params
     const { title, description, status, probability, impact, category } = req.body
@@ -40,7 +40,7 @@ router.post("/projects/:projectId/risks", middleware.userExtractor, middleware.c
 })
 
 // Update a risk
-router.put("/risks/:riskId", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
+riskRouter.put("/risks/:riskId", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
   try {
     const { riskId } = req.params
     const updateData = req.body
@@ -53,7 +53,7 @@ router.put("/risks/:riskId", middleware.userExtractor, middleware.checkProjectOw
   }
 })
 
-router.delete("risks/:riskId", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
+riskRouter.delete("risks/:riskId", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
   try {
     const { riskId } = req.params
 

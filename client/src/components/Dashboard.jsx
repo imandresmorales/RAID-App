@@ -27,9 +27,6 @@ const Dashboard = () => {
     setShowModal(false)
   }
 
-  const navigatePage = () => {
-    navigate('/risks')
-  }
 
   return (
     <>
@@ -52,7 +49,7 @@ const Dashboard = () => {
                 <div className='rounded-lg shadow-sm transition-shadow' key={project.id}>
                   <div className='flex flex-col space-y-1.5 p-6'>
                     <h3 className='text-2xl font-semibold flex items-center justify-between'>
-                      <span className='truncate cursor-pointer hover:text-blue-600' onClick={navigatePage}>{project.name}</span>
+                      <span className='truncate cursor-pointer hover:text-blue-600' onClick={() => navigate(`/projects/${project.id}/risks`)}>{project.name}</span>
                       <div className='flex items-center text-base'>
                         <button onClick={() => handleDelete(project.id)}><Trash size={25} /></button>
                       </div>
@@ -61,10 +58,10 @@ const Dashboard = () => {
                   </div>
                   <div className='p-6 pt-0'>
                     <div className='grid grid-cols-2 gap-4 text-sm'>
-                      <div className='flex items-center space-x-2'><span>Risks: {project.risks?.count ?? 0}</span></div>
-                      <div className='flex items-center space-x-2'><span>Assumptions: {project.assumptions?.count ?? 0}</span></div>
-                      <div className='flex items-center space-x-2'><span>Issues: {project.issues?.count ?? 0}</span></div>
-                      <div className='flex items-center space-x-2'><span>Dependencies: {project.dependencies?.count ?? 0}</span></div>
+                      <div className='flex items-center space-x-2'><span>Risks: {project.riskCount ?? 0}</span></div>
+                      <div className='flex items-center space-x-2'><span>Assumptions: {project.assumptionCount ?? 0}</span></div>
+                      <div className='flex items-center space-x-2'><span>Issues: {project.issuesCount ?? 0}</span></div>
+                      <div className='flex items-center space-x-2'><span>Dependencies: {project.dependenciesCount ?? 0}</span></div>
                     </div>
                   </div>
                 </div>

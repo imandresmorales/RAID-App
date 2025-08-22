@@ -1,6 +1,7 @@
 import { registerUser, loginUser } from "../services/login";
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import projectService from "../services/project";
+import riskService from "../services/risk"
 let parsedUser = null;
 let storedToken = null;
 
@@ -81,6 +82,7 @@ const authSlice = createSlice({
         state.isAuthenticated = true
         state.loading = false
         projectService.setToken(action.payload.token)
+        riskService.setToken(action.payload.token)
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.loading = false
@@ -98,6 +100,7 @@ const authSlice = createSlice({
         state.isAuthenticated = true
         state.loading = false
         projectService.setToken(action.payload.token);
+        riskService.setToken(action.payload.token)
       })
       .addCase(registerThunk.rejected, (state, action) => {
         state.loading = false

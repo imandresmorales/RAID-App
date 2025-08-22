@@ -22,6 +22,7 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const userExtractor = async (request, response, next) => {
+  console.log("Extracting user... Token:", request.token)
   if (!request.token) {
     request.user = null
   } else {

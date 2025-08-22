@@ -22,13 +22,14 @@ app.use(cors())
 app.use(express.json())
 app.use(middleware.requestLogger)
 app.use(middleware.tokenExtractor)
+app.use(middleware.userExtractor)
 
 app.get('/', (req, res) => {
   res.send("Backend is running")
 })
 
 app.use("/api/auth", authRoutes)
-app.use('/api/projects', middleware.userExtractor, projectRouter)
+app.use('/api/projects', projectRouter)
 app.use('/api', riskRouter)
 
 app.use(middleware.unknownEndpoint)

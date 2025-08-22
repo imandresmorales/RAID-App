@@ -28,7 +28,7 @@ function App() {
           <Route path="/" element={<HomePage />}></Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/risks" element={<Risks />} />
+            <Route path="/projects/:projectId/risks" element={<Risks />} />
             <Route path="/assumptions" element={<Assumptions />} />
             <Route path="/issues" element={<Issues />} />
             <Route path="/dependencies" element={<Dependencies />} />

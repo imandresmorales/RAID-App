@@ -34,9 +34,12 @@ export const updateRisk = createAsyncThunk(
 )
 export const deleteRisk = createAsyncThunk(
   'risks/delete',
-  async (riskId, thunkAPI) => {
+  async ({ projectId, riskId }, thunkAPI) => {
+    if (!riskId || !projectId) {
+      return thunkAPI.rejectWithValue("Invalid projectId or riskId");
+    }
     try {
-      return await riskService.deleteRisk(riskId)
+      return await riskService.deleteRisk(projectId, riskId)
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
     }
@@ -44,7 +47,7 @@ export const deleteRisk = createAsyncThunk(
 )
 
 const initialState = {
-  items: [],
+  risks: [],
   loading: false,
   error: null
 }
@@ -62,7 +65,7 @@ const riskSlice = createSlice({
         state.error = null
       })
       .addCase(fetchRisks.fulfilled, (state, action) => {
-        state.items = action.payload
+        state.risks = action.payload
         state.loading = false
       })
       .addCase(fetchRisks.rejected, (state, action) => {
@@ -72,18 +75,18 @@ const riskSlice = createSlice({
 
       // Create
       .addCase(createRisk.fulfilled, (state, action) => {
-        state.items = [...state.items, action.payload]
+        state.risks = [...state.risks, action.payload]
       })
 
       // Update
       .addCase(updateRisk.fulfilled, (state, action) => {
         const updated = action.payload
-        state.items = state.items.map((risk) => risk.id !== updated.id ? risk : updated)
+        state.risks = state.risks.map((risk) => risk.id !== updated.id ? risk : updated)
       })
 
       // Delete
       .addCase(deleteRisk.fulfilled, (state, action) => {
-        state.items = state.items.filter((risk) => risk.id !== action.payload)
+        state.risks = state.risks.filter((risk) => risk.id !== action.payload.id)
       })
   }
 })

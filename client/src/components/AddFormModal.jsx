@@ -22,7 +22,7 @@ const AddFormModal = ({ onClose, onCreate }) => {
   }
   return (
     <>
-      <div ref={modalRef} onClick={closeModal} className='fixed inset-0 bg- gray-100 bg-opacity-10 backdrop-blur-sm flex justify-center items-center '>
+      <div ref={modalRef} onClick={closeModal} className='fixed inset-0 bg-gray-100 bg-opacity-10 backdrop-blur-sm flex justify-center items-center '>
         <div className='mt-5 flex flex-col gap-5 text-black'>
           <button onClick={onClose} className='place-self-end'><X size={30} /></button>
           <div className='flex flex-col items-center px-20 py-10 gap-5 bg-white shadow-2xl mx-4 rounded-xl'>

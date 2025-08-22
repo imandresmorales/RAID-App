@@ -17,6 +17,7 @@ riskRouter.get("/projects/:projectId/risks", middleware.userExtractor, async (re
 // Post a new risk
 riskRouter.post("/projects/:projectId/risks", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
   try {
+    // console.log("req.user:", req.user)
     const { projectId } = req.params
     const { title, description, status, probability, impact, category } = req.body
 
@@ -33,9 +34,11 @@ riskRouter.post("/projects/:projectId/risks", middleware.userExtractor, middlewa
     await Project.findByIdAndUpdate(projectId, {
       $push: { risks: savedRisk._id }
     })
+    res.status(201).json(savedRisk)
   }
   catch (error) {
-    res.status(500).json({ error: "Failed to add a new risk" })
+    // console.error("Error creating risk:", error)
+    res.status(500).json({ error: error.message || "Failed to add a new risk" })
   }
 })
 
@@ -46,28 +49,49 @@ riskRouter.put("/risks/:riskId", middleware.userExtractor, middleware.checkProje
     const updateData = req.body
 
     const updateRisk = await Risk.findByIdAndUpdate(riskId, updateData, { new: true })
-    res.json({ updateRisk })
+    res.json(updateRisk)
   }
   catch (error) {
     res.status(500).json({ error: "Failed to update the risk" })
   }
 })
 
-riskRouter.delete("risks/:riskId", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
+riskRouter.delete("/projects/:projectId/risks/:riskId", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
   try {
-    const { riskId } = req.params
+    const { projectId, riskId } = req.params;
+    // console.log("Deleting risk:", projectId, riskId);
+    // console.log("Received DELETE request for riskId:", req.params.riskId);
+    // console.log("Received riskId:", riskId);
 
-    const deleteRisk = await Risk.findByIdAndDelete(riskId)
+    if (!riskId) {
+      return res.status(400).json({ error: "Missing riskId" });
+    }
 
+    const project = await Project.findById(projectId);
+    // console.log("Project risks:", project.risks);
+
+    // Check if the risk exists before attempting to delete
+    const risk = await Risk.findById(riskId);
+    if (!risk) {
+      return res.status(404).json({ error: "Risk not found" });
+    }
+    // console.log("Risk found:", risk);
+
+    // Proceed with deletion
+    const deleteRisk = await Risk.findByIdAndDelete(riskId);
+
+    // Remove the risk reference from projects
     await Project.updateMany(
       { risks: riskId },
       { $pull: { risks: riskId } }
-    )
-    res.json({ message: 'Risk deleted', id: deleteRisk._id })
+    );
+
+    res.json({ message: 'Risk deleted', id: deleteRisk._id });
+  } catch (error) {
+    // console.error("Error deleting risk:", error);
+    res.status(500).json({ message: 'Error deleting risk', error: error.message });
   }
-  catch (error) {
-    res.status(500).json({ error: 'Fail to delete a risk' })
-  }
-})
+});
+
 
 module.exports = riskRouter

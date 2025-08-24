@@ -43,10 +43,20 @@ riskRouter.post("/projects/:projectId/risks", middleware.userExtractor, middlewa
 })
 
 // Update a risk
-riskRouter.put("/risks/:riskId", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
+riskRouter.put("/projects/:projectId/risks/:riskId", middleware.userExtractor, middleware.checkProjectOwner, async (req, res) => {
   try {
-    const { riskId } = req.params
+    const { riskId, projectId } = req.params
     const updateData = req.body
+    const updatedRisk = await Risk.findById(riskId);
+
+    if (!updatedRisk) {
+      return res.status(404).json({ error: "Risk not found" });
+    }
+
+
+    if (!updatedRisk.projects.includes(projectId)) {
+      return res.status(400).json({ error: "Project ID mismatch" });
+    }
 
     const updateRisk = await Risk.findByIdAndUpdate(riskId, updateData, { new: true })
     res.json(updateRisk)

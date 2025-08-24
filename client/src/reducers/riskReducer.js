@@ -5,7 +5,9 @@ export const fetchRisks = createAsyncThunk(
   'risks/fetchAll',
   async (projectId, thunkAPI) => {
     try {
-      return await riskService.getAll(projectId)
+      const risks = await riskService.getAll(projectId)
+      console.log('Fetched risks:', risks);
+      return risks
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
     }
@@ -24,9 +26,9 @@ export const createRisk = createAsyncThunk(
 )
 export const updateRisk = createAsyncThunk(
   'risks/update',
-  async ({ riskId, updateRiskData }, thunkAPI) => {
+  async ({ riskId, projectId, updateRiskData }, thunkAPI) => {
     try {
-      return await riskService.updateRisk(riskId, updateRiskData)
+      return await riskService.updateRisk(projectId, riskId, updateRiskData)
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
     }
@@ -75,17 +77,20 @@ const riskSlice = createSlice({
 
       // Create
       .addCase(createRisk.fulfilled, (state, action) => {
+        console.log('Risk created with payload:', action.payload);
         state.risks = [...state.risks, action.payload]
       })
 
       // Update
       .addCase(updateRisk.fulfilled, (state, action) => {
+        console.log('Risk updated with payload:', action.payload);
         const updated = action.payload
         state.risks = state.risks.map((risk) => risk.id !== updated.id ? risk : updated)
       })
 
       // Delete
       .addCase(deleteRisk.fulfilled, (state, action) => {
+        console.log('Risk deleted with payload:', action.payload);
         state.risks = state.risks.filter((risk) => risk.id !== action.payload.id)
       })
   }

@@ -11,11 +11,13 @@ import AddRiskFormModal from './AddRiskFormModal.jsx';
 
 const Risks = () => {
   const [showRiskModal, setRiskModal] = useState(false)
+  // Track the edit form
+  const [editingRisk, setEditingRisk] = useState(null);
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { projectId } = useParams()
   const { risks } = useSelector(state => state.risks)
-  // console.log(risks)
+  console.log("All risks:", risks)
 
   // fetch all the risks
 
@@ -31,22 +33,20 @@ const Risks = () => {
   }
 
   const handleCreateRisk = (riskData) => {
+    console.log('Dispatching createRisk with data:', riskData);
     dispatch(createRisk({ projectId, newRisk: riskData }))
     setRiskModal(false)
   }
 
   const handleDeleteRisk = (id) => {
-    // console.log("Risks in state:", risks);
-    // const riskToDelete = risks.find(risk => risk.id === id);
-    // if (!riskToDelete) {
-    //   console.error("Risk not found in state.");
-    //   return;
-    // }
-    // console.log("projectId:", projectId);
-    // console.log("riskId:", id);
-    // console.log("Deleting risk with ID:", id);
-
     dispatch(deleteRisk({ projectId, riskId: id }))
+  }
+
+  const handleUpdateRisk = (riskId, updateData) => {
+    console.log('Dispatching updateRisk with data:', updateData);
+    dispatch(updateRisk({ projectId, riskId, updDatedRiskData: updateData }))
+    setRiskModal(false)
+    setEditingRisk(null)
   }
 
   return (
@@ -69,7 +69,8 @@ const Risks = () => {
         <div className='flex justify-between mt-6'>
           <p className='font-bold'>Risks</p>
           <button onClick={() => setRiskModal(true)} className=' flex gap-2 items-center bg-black text-white font-medium rounded-md text-sm px-4 py-2'><Plus size={10} />New Risk</button>
-          {showRiskModal && <AddRiskFormModal closeRiskPage={() => setRiskModal(false)} onCreateRisk={handleCreateRisk} />}
+          {showRiskModal && (<AddRiskFormModal closeRiskPage={() => { setRiskModal(false); setEditingRisk(null); }} onUpdateRisk={handleUpdateRisk}
+            editingRisk={editingRisk} onCreateRisk={handleCreateRisk} />)}
         </div>
 
         {
@@ -91,7 +92,10 @@ const Risks = () => {
                     <span>Category:<button className='mx-1 px-2 rounded-md font-semibold shadow-md'>{risk.category}</button></span>
                   </div>
                   <div className='mt-4 px-4 flex justify-end border-t-2 border-gray-200'>
-                    <button className='text-sm text-blue-400 py-2 hover:text-blue-600'>Click to Edit</button>
+                    <button onClick={() => {
+                      setEditingRisk(risk)
+                      setRiskModal(true)
+                    }} className='text-sm text-blue-400 py-2 hover:text-blue-600'>Click to Edit</button>
                   </div>
                 </div>
 

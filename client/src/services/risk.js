@@ -15,7 +15,7 @@ const getAll = async (projectId) => {
     headers: { Authorization: token },
   }
   const res = await axios.get(`${baseUrl}/projects/${projectId}/risks`, config)
-  console.log(res.data)
+  // console.log(res.data)
   return res.data
 }
 
@@ -26,14 +26,20 @@ const createRisk = async (projectId, newRisk) => {
   }
   // console.log(config)
   const res = await axios.post(`${baseUrl}/projects/${projectId}/risks`, newRisk, config)
+  console.log('Created risk response:', res);
   return res.data
 }
 
-const updateRisk = async (riskId, updatedRisk) => {
+const updateRisk = async (riskId, projectId, updatedRisk) => {
   const config = {
     headers: { Authorization: token },
   }
-  const res = await axios.put(`${baseUrl}/risks/${riskId}`, updatedRisk, config)
+
+  if (!updatedRisk) {
+    throw new Error("No updated risk data provided");
+  }
+
+  const res = await axios.put(`${baseUrl}/projects/${projectId}/risks/${riskId}`, updatedRisk, config)
   return res.data
 }
 

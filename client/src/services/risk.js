@@ -5,7 +5,7 @@ let token = null
 
 const setToken = newToken => {
   token = `Bearer ${newToken}`
-  // console.log("Token set:", token)
+  console.log("Token set:", token)
 }
 
 // Get all risks

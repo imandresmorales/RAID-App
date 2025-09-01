@@ -1,3 +1,4 @@
+# 🇬🇧 To read this in English, visit [README.md](./README.md)
 # RAID-App (Español)
 
 RAID-App es una aplicación para la gestión de riesgos, acciones, problemas y dependencias en proyectos.

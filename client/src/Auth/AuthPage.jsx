@@ -12,14 +12,11 @@ const AuthPage = () => {
 
   const { loading, error, isAuthenticated } = useSelector(state => state.auth)
 
-const [hasNavigated, setHasNavigated] = useState(false);
-
 useEffect(() => {
-  if (!loading && isAuthenticated && !hasNavigated) {
-    setHasNavigated(true);
+  if (!loading && isAuthenticated) {
     navigate('/dashboard');
   }
-}, [loading, isAuthenticated, navigate, hasNavigated]);
+}, [loading, isAuthenticated, navigate]);
 
 
   const handleChange = (e) => {

@@ -28,8 +28,9 @@ export const updateRisk = createAsyncThunk(
   'risks/update',
   async ({ riskId, projectId, updateRiskData }, thunkAPI) => {
     try {
-      return await riskService.updateRisk(projectId, riskId, updateRiskData)
+      return await riskService.updateRisk(riskId, projectId, updateRiskData)
     } catch (error) {
+      console.error("Update risk error:", error.response?.data || error.message);
       return thunkAPI.rejectWithValue(error.message)
     }
   }

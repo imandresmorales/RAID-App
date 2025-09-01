@@ -49,6 +49,7 @@ riskRouter.put("/projects/:projectId/risks/:riskId", middleware.userExtractor, m
     const updateData = req.body
     const updatedRisk = await Risk.findById(riskId);
 
+
     if (!updatedRisk) {
       return res.status(404).json({ error: "Risk not found" });
     }
@@ -59,7 +60,9 @@ riskRouter.put("/projects/:projectId/risks/:riskId", middleware.userExtractor, m
     }
 
     const updateRisk = await Risk.findByIdAndUpdate(riskId, updateData, { new: true })
+    console.log('Updated Risk:', updateRisk);
     res.json(updateRisk)
+
   }
   catch (error) {
     res.status(500).json({ error: "Failed to update the risk" })

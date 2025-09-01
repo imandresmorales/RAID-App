@@ -44,7 +44,7 @@ const Risks = () => {
 
   const handleUpdateRisk = (riskId, updateData) => {
     console.log('Dispatching updateRisk with data:', updateData);
-    dispatch(updateRisk({ projectId, riskId, updDatedRiskData: updateData }))
+    dispatch(updateRisk({ projectId, riskId, updateRiskData: updateData }))
     setRiskModal(false)
     setEditingRisk(null)
   }
